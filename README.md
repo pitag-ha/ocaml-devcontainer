@@ -1,6 +1,6 @@
 # OCaml Dev Container
 
-A basic devcontainer for OCaml development. It is based on the latest versions of OCaml and Debian.
+A basic dev container for OCaml development. It is based on the latest stable versions of OCaml and Debian.
 
 Current configuration supports simple workflow of:
 - Editing code using [OCaml Platform VSCode extension](https://marketplace.visualstudio.com/items?itemName=ocamllabs.ocaml-platform)
