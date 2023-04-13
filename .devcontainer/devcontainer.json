@@ -1,10 +1,10 @@
 {
     "name": "OCaml Devcontainer",
     "dockerFile": "Dockerfile",
-    "forwardPorts": [8080],
     "customizations": {
         "vscode": {
             "extensions": ["ocamllabs.ocaml-platform"]
         }
-    }
+    },
+    "containerUser": "opam"
 }

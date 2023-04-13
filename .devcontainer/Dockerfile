@@ -1,6 +1,8 @@
 FROM ocaml/opam:debian
 
-RUN sudo apt-get update \
-  && sudo apt-get -y install git curl unzip bubblewrap pkg-config
-
-RUN opam install -y dune ocaml-lsp-server ocamlformat utop
+# Basic packages:
+# dune - build system
+# utop - nicer REPL
+# ocaml-lsp-server - backend for VSCode OCaml extension
+# ocamlformat - code formatter, used by ocaml-lsp-server
+RUN opam install -y dune utop ocaml-lsp-server ocamlformat
