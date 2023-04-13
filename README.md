@@ -1,4 +1,4 @@
-# ocaml-devcontainer
+# OCaml Dev Container
 
 A basic devcontainer for OCaml development. It is based on the latest versions of OCaml and Debian.
 
