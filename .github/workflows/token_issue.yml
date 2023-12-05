@@ -9,7 +9,18 @@ jobs:
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
-    - name: Write a comment on a PR
+    - name: Write with GH API
       run: |
         curl -LsX POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -d '{"body":"Hello :)"}' "${{ github.event.pull_request.comments_url }}"
         echo $?
+    - name: Try with github-script action
+      uses: actions/github-script@v3
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+            github.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: '👋 Thanks for reporting!'
+            })
