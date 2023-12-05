@@ -1,0 +1,53 @@
+name: Token issue debugging
+
+on:
+  pull_request:
+    branches: [ main ]
+
+env:
+    TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+jobs:
+  debugging:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+    - name: Write with GH API
+      run: |
+        curl -LsX POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -d '{"body":"Hello :)"}' "${{ github.event.pull_request.comments_url }}"
+        echo $?
+    # - name: Try with github-script action
+    #   uses: actions/github-script@v7
+    #   with:
+    #     script: |
+    #         github.rest.issues.createComment({
+    #         issue_number: context.issue.number,
+    #         owner: context.repo.owner,
+    #         repo: context.repo.repo,
+    #         body: '👋 Thanks for reporting!'
+    #         })
+
+    - name: Try to delete a PR label
+      run: |
+        curl -sL -w "%{http_code}" -o output.txt -X DELETE -H "Authorization: Bearer $TOKEN" "${{ github.event.pull_request.issue_url }}/labels/invalid"
+
+    - name: Create a dummy file
+      run: |
+        mkdir dummy
+
+    - name: Upload data
+      uses: actions/upload-artifact@v3
+      with:
+        name: dummy
+        path: dummy/
+
+    - name: Try to download an artifact
+      run: |
+        all_artifacts=$(curl -sSL  ${{ github.event.pull_request.base.repo.url }}/actions/artifacts)
+        id=$(echo "$all_artifacts" | jq "first(.artifacts[] | .id)")
+        curl -sSLO -H "Authorization: Bearer $TOKEN" "${{ github.event.pull_request.base.repo.url }}/actions/artifacts/$id/zip" -D headers.txt
+
+    - name: See if artifact is downloaded
+      run: |
+        ls -la
