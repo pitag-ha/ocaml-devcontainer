@@ -12,22 +12,22 @@ jobs:
   share_instruction:
     runs-on: ubuntu-latest
     steps:
-      # - name: Forward instruction to delete the label to privileged workflow
-      #   run: |
-      #     mkdir -p ./forward
-      #     jq -n \
-      #       --arg instruction "delete_label" \
-      #       --arg endpoint "$GH_API_LABELS" \
-      #       '{instruction: $instruction, endpoint: $endpoint}' > ./forward/instruction.json
-      - name: Forward instruction to commen on PR to privileged workflow
+      - name: Forward instruction to delete the label to privileged workflow
         run: |
           mkdir -p ./forward
           jq -n \
-            --arg instruction "comment" \
-            --arg endpoint "$GH_API_COMMENTS" \
-            --arg artifacts_url "foooo.com" \
-            --arg hash "123456789" \
-            '{instruction: $instruction, endpoint: $endpoint, artifacts_url: $artifacts_url, hash: $hash}' > ./forward/instruction.json
+            --arg instruction "delete_label" \
+            --arg endpoint "$GH_API_LABELS" \
+            '{instruction: $instruction, endpoint: $endpoint}' > ./forward/instruction.json
+    #   - name: Forward instruction to commen on PR to privileged workflow
+    #     run: |
+    #       mkdir -p ./forward
+    #       jq -n \
+    #         --arg instruction "comment" \
+    #         --arg endpoint "$GH_API_COMMENTS" \
+    #         --arg artifacts_url "foooo.com" \
+    #         --arg hash "123456789" \
+    #         '{instruction: $instruction, endpoint: $endpoint, artifacts_url: $artifacts_url, hash: $hash}' > ./forward/instruction.json
       - uses: actions/upload-artifact@v3
         with:
           name: forwarded_instructions
